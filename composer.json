@@ -1,0 +1,62 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "maxcloudapps/laravel-llm-client",
+    "description": "Laravel client for OpenAI-compatible LLM endpoints.",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "llm",
+        "openai",
+        "ai"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "illuminate/http": "^13.0",
+        "illuminate/support": "^13.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.27",
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "MaxCloudApps\\LlmClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MaxCloudApps\\LlmClient\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MaxCloudApps\\LlmClient\\LlmServiceProvider"
+            ],
+            "aliases": {
+                "Llm": "MaxCloudApps\\LlmClient\\Facades\\Llm"
+            }
+        }
+    },
+    "scripts": {
+        "lint": [
+            "pint"
+        ],
+        "lint:check": [
+            "pint --test"
+        ],
+        "test": [
+            "pest"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

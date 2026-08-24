@@ -1,0 +1,23 @@
+# Long-running PHP environment for this package, so tests don't depend on
+# whatever PHP happens to be installed on the host.
+#
+#   docker compose up -d                      # start it (installs deps once)
+#   docker compose exec test vendor/bin/pest  # run the suite, as often as you like
+#   docker compose exec test sh               # poke around
+#   docker compose down                       # stop it
+#
+# The composer image is PHP 8.4 + Composer, which is all a library test suite
+# needs — no server to run and no datastore to talk to. The container installs
+# dependencies on boot and then idles, and the source is bind-mounted, so edits
+# are picked up with no restart.
+
+services:
+  test:
+    image: composer:2.8
+    container_name: laravel-llm-client
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: [ "sh", "-c" ]
+    command: [ "composer install --no-interaction && sleep infinity" ]
+    stop_grace_period: 1s

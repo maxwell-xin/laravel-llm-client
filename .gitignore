@@ -1,0 +1,10 @@
+/vendor
+/build
+composer.lock
+.phpunit.result.cache
+.phpunit.cache
+.DS_Store
+.idea/
+.vscode/
+.fleet/
+.claude/settings.local.json
