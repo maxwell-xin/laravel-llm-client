@@ -25,23 +25,20 @@ readonly class LlmClient
 {
     public function __construct(
         protected HttpFactory $http,
-        protected string      $baseUrl,
-        protected ?string     $apiKey = null,
-        protected ?string     $model = null,
-        protected int         $timeout = 600,
-        protected int         $connectTimeout = 10,
-    )
-    {
-    }
+        protected string $baseUrl,
+        protected ?string $apiKey = null,
+        protected ?string $model = null,
+        protected int $timeout = 600,
+        protected int $connectTimeout = 10,
+    ) {}
 
     /**
      * Send a conversation and return the completion.
-     * @param list<Message> $messages
-     * @param string|null $model
-     * @param array<string, mixed> $options Extra request fields passed through untouched
-     *                            (temperature, max_tokens, response_format, …).
-     *                            Endpoints silently ignore what they do not support.
-     * @return ChatResponse
+     *
+     * @param  list<Message>  $messages
+     * @param  array<string, mixed>  $options  Extra request fields passed through untouched
+     *                                         (temperature, max_tokens, response_format, …).
+     *                                         Endpoints silently ignore what they do not support.
      */
     public function chat(array $messages, ?string $model = null, array $options = []): ChatResponse
     {
@@ -56,7 +53,7 @@ readonly class LlmClient
         $payload = [
             ...$options,
             'model' => $model,
-            'messages' => array_map(static fn(Message $message): array => $message->toArray(), $messages),
+            'messages' => array_map(static fn (Message $message): array => $message->toArray(), $messages),
         ];
 
         return ChatResponse::from($this->send('chat/completions', $payload));
@@ -70,11 +67,7 @@ readonly class LlmClient
      * instructions. Build the two halves with a PromptBuilder and call chat()
      * instead whenever the text carries anything you did not write.
      *
-     * @param string $prompt
-     * @param string|null $system
-     * @param string|null $model
-     * @param array<string, mixed> $options
-     * @return ChatResponse
+     * @param  array<string, mixed>  $options
      */
     public function prompt(string $prompt, ?string $system = null, ?string $model = null, array $options = []): ChatResponse
     {
@@ -98,12 +91,12 @@ readonly class LlmClient
 
         $models = $data['data'] ?? [];
 
-        if (!is_array($models)) {
+        if (! is_array($models)) {
             return [];
         }
 
         return array_values(array_map(
-            static fn(array $model): Model => Model::from($model),
+            static fn (array $model): Model => Model::from($model),
             array_filter($models, 'is_array'),
         ));
     }
@@ -111,7 +104,7 @@ readonly class LlmClient
     /**
      * Perform the request and hand back the decoded body.
      *
-     * @param array<string, mixed> $payload
+     * @param  array<string, mixed>  $payload
      * @return array<string, mixed>
      *
      * @throws LlmConnectionException|LlmRequestException

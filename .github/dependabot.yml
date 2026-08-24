@@ -1,0 +1,17 @@
+version: 2
+
+updates:
+  # No composer.lock is committed, as is normal for a library, so these only
+  # open a PR when a constraint itself goes out of date — a new Laravel major
+  # landing outside ^13.0, say. That PR is the useful one: the CI matrix runs
+  # on it and answers whether the package is actually compatible.
+  - package-ecosystem: composer
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

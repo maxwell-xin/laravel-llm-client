@@ -243,10 +243,11 @@ Match the pattern against whatever `LLM_BASE_URL` is in your test environment.
 The test suite runs in a pinned PHP container, so nothing has to be installed on the host. The container installs dependencies on boot and then idles, so the suite can be run against it as often as you like:
 
 ```bash
-docker compose up -d                      # start it
-docker compose exec test vendor/bin/pest  # run the suite
-docker compose exec test vendor/bin/pint  # format
-docker compose down                       # stop it
+docker compose up -d                          # start it
+docker compose exec test vendor/bin/pest      # run the suite
+docker compose exec test vendor/bin/phpstan analyse   # static analysis
+docker compose exec test vendor/bin/pint      # format
+docker compose down                           # stop it
 ```
 
 Or locally, with PHP 8.3+ and Composer:
@@ -254,9 +255,12 @@ Or locally, with PHP 8.3+ and Composer:
 ```bash
 composer install
 composer test        # pest
+composer analyse     # phpstan, level 8
 composer lint        # pint
 composer lint:check  # pint --test
 ```
+
+CI runs the suite against **PHP 8.3, 8.4 and 8.5**, each with both the lowest and the newest dependency versions the `composer.json` constraints allow — six combinations, because a library runs on whatever its users have installed rather than on one pinned version. PHPStan and Pint run once each.
 
 ## Notes
 

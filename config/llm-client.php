@@ -48,8 +48,8 @@ return [
     | endpoint fails fast instead of hanging for the full request timeout.
     */
 
-    'timeout' => (int)env('LLM_TIMEOUT', 600),
+    'timeout' => (int) env('LLM_TIMEOUT', 600),
 
-    'connect_timeout' => (int)env('LLM_CONNECT_TIMEOUT', 10),
+    'connect_timeout' => (int) env('LLM_CONNECT_TIMEOUT', 10),
 
 ];

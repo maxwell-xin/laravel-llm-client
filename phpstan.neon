@@ -1,0 +1,25 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 8
+
+    paths:
+        - src
+        - tests
+
+    # The lowest PHP this package supports, so syntax newer than 8.3 is caught
+    # here rather than by a user running it.
+    phpVersion: 80300
+
+    ignoreErrors:
+        # Pest binds test closures to the TestCase at runtime, but PHPStan sees
+        # $this as the TestCall returned by it(), which has no fail(). The call
+        # is valid; only the static view of it is wrong.
+        #
+        # reportUnmatched is off because older Pest versions do not report this
+        # at all, and the CI matrix analyses prefer-lowest as well.
+        -
+            message: '#Call to an undefined method Pest\\PendingCalls\\TestCall::fail\(\)#'
+            path: tests/*
+            reportUnmatched: false

@@ -12,9 +12,7 @@ final readonly class Message
     public function __construct(
         public string $role,
         public string $content,
-    )
-    {
-    }
+    ) {}
 
     public static function system(string $content): self
     {
