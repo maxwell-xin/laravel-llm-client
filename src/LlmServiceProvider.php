@@ -12,7 +12,7 @@ final class LlmServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/llm-client.php', 'llm-client');
+        $this->mergeConfigFrom(__DIR__.'/../config/llm-client.php', 'llm-client');
 
         $this->app->singleton(LlmClient::class, static function (Application $app): LlmClient {
             /**
@@ -25,8 +25,8 @@ final class LlmServiceProvider extends ServiceProvider
                 baseUrl: rtrim($config['base_url'], '/'),
                 apiKey: $config['api_key'] ?: null,
                 model: $config['model'] ?: null,
-                timeout: (int)$config['timeout'],
-                connectTimeout: (int)$config['connect_timeout'],
+                timeout: (int) $config['timeout'],
+                connectTimeout: (int) $config['connect_timeout'],
             );
         });
 
@@ -37,7 +37,7 @@ final class LlmServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/llm-client.php' => config_path('llm-client.php'),
+                __DIR__.'/../config/llm-client.php' => config_path('llm-client.php'),
             ], 'llm-client-config');
         }
     }

@@ -10,22 +10,20 @@ namespace MaxCloudApps\LlmClient\Data;
 final readonly class Model
 {
     public function __construct(
-        public string  $id,
+        public string $id,
         public ?string $ownedBy = null,
-        public ?int    $contextLength = null,
-    )
-    {
-    }
+        public ?int $contextLength = null,
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function from(array $data): self
     {
         return new self(
-            id: (string)($data['id'] ?? ''),
-            ownedBy: isset($data['owned_by']) ? (string)$data['owned_by'] : null,
-            contextLength: isset($data['context_length']) ? (int)$data['context_length'] : null,
+            id: (string) ($data['id'] ?? ''),
+            ownedBy: isset($data['owned_by']) ? (string) $data['owned_by'] : null,
+            contextLength: isset($data['context_length']) ? (int) $data['context_length'] : null,
         );
     }
 }

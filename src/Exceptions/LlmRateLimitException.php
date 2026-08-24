@@ -14,26 +14,25 @@ namespace MaxCloudApps\LlmClient\Exceptions;
 final class LlmRateLimitException extends LlmRequestException
 {
     /**
-     * @param array<string, mixed> $body
-     * @param string|null $retryAfterHeader The raw Retry-After header, when the endpoint sent one.
+     * @param  array<string, mixed>  $body
+     * @param  string|null  $retryAfterHeader  The raw Retry-After header, when the endpoint sent one.
      */
     public function __construct(
-        string                     $message,
-        int                        $status = 0,
-        array                      $body = [],
+        string $message,
+        int $status = 0,
+        array $body = [],
         protected readonly ?string $retryAfterHeader = null,
-    )
-    {
+    ) {
         parent::__construct($message, $status, $body);
     }
 
     /**
-     * @param array<string, mixed> $body
+     * @param  array<string, mixed>  $body
      */
     public static function fromResponse(int $status, array $body, string $rawBody, ?string $retryAfterHeader = null): self
     {
         return new self(
-            'The LLM endpoint is rate limited: ' . self::describe($body, $rawBody),
+            'The LLM endpoint is rate limited: '.self::describe($body, $rawBody),
             status: $status,
             body: $body,
             retryAfterHeader: $retryAfterHeader,
@@ -51,7 +50,7 @@ final class LlmRateLimitException extends LlmRequestException
     public function retryAfter(): ?int
     {
         if (is_numeric($this->retryAfterHeader)) {
-            return max(0, (int)$this->retryAfterHeader);
+            return max(0, (int) $this->retryAfterHeader);
         }
 
         if ($this->retryAfterHeader !== null && $this->retryAfterHeader !== '') {
@@ -64,6 +63,6 @@ final class LlmRateLimitException extends LlmRequestException
 
         $retryAfter = $this->body['error']['retry_after'] ?? $this->body['retry_after'] ?? null;
 
-        return is_numeric($retryAfter) ? max(0, (int)$retryAfter) : null;
+        return is_numeric($retryAfter) ? max(0, (int) $retryAfter) : null;
     }
 }
